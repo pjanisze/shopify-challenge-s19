@@ -40,3 +40,25 @@ exports.add = async (data) => {
 	console.log("Inserted product into cart");
 	return true;
 }
+
+exports.getProductAmount = async (cartId, productId) => {
+	var sql = "SELECT amount FROM carts_products WHERE cart_id = ? AND product_id = ?";
+	var results = await new Promise (( resolve, reject) => db.query(sql, [cartId, productId], (err, results) => {
+		if(err) reject(err);
+		resolve(results);
+	}));
+	if(results.length == 0){
+		return 0;
+	}else{
+		return results[0];
+	}
+}
+
+exports.deactivate = async (cartId) => {
+	var sql = "UPDATE carts SET active = false WHERE id = ?";
+	var results = await new Promise (( resolve, reject) => db.query(sql, cartId, (err, results) => {
+		if(err) reject(err);
+		resolve(results);
+	}));
+	return true;
+}

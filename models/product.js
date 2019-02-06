@@ -34,6 +34,19 @@ exports.get = async (title) => {
 		throw err;
 	}
 }
+exports.getById = async (id) => {
+	try{
+		var sql = "SELECT * FROM `products` WHERE `id` = ?";
+		var results = await new Promise((resolve, reject) =>  db.query(sql, id, (err, results) => {
+			if(err) reject(err);
+			resolve(results);
+		}));
+		console.log("prod: %j", results);
+		return results[0];
+	} catch(err){
+		throw err;
+	}
+}
 
 exports.purchase = async (title) => {
 
