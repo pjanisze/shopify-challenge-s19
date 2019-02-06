@@ -15,12 +15,16 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('carts-products', {
+  return db.createTable('carts_products', {
+    entry_id: {
+      type: 'int',
+      autoIncrement: true,
+      primaryKey: true
+    },
     cart_id: {
       type: 'int',
-      unsigned: true,
       foreignKey: {
-        name: 'cart_id_fk',
+        name: 'carts_products_cart_id_fk',
         table: 'carts',
         rules:{
           onDelete: 'RESTRICT',
@@ -33,9 +37,8 @@ exports.up = function(db) {
     },
     product_id: {
       type: 'int',
-      unsigned: true,
       foreignKey: {
-        name: 'product_id_fk',
+        name: 'carts_products_product_id_fk',
         table: 'products',
         rules:{
           onDelete: 'RESTRICT',
@@ -47,13 +50,14 @@ exports.up = function(db) {
       }
     },
     amount: {
-      type: 'int'
+      type: 'int',
+      unsigned: true
     }
   });
 };
 
 exports.down = function(db) {
-  return db.dropTable('carts-products');
+  return db.dropTable('carts_products');
 };
 
 exports._meta = {
