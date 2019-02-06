@@ -18,7 +18,6 @@ exports.up = function(db) {
   return db.createTable('carts-products', {
     cart_id: {
       type: 'int',
-      unsigned: true,
       foreignKey: {
         name: 'cart_id_fk',
         table: 'carts',
@@ -33,7 +32,6 @@ exports.up = function(db) {
     },
     product_id: {
       type: 'int',
-      unsigned: true,
       foreignKey: {
         name: 'product_id_fk',
         table: 'products',
