@@ -11,6 +11,7 @@ exports.create = async (data) => {
 };
 
 exports.getAll = async (minInventory = 0) => {
+	console.log(minInventory);
 	var sql = "SELECT * FROM `products` WHERE inventory_count >= ?";
 	var results = await new Promise((resolve, reject) => db.query(sql, minInventory, (err, results) => {
 		if(err) reject(err);
@@ -37,7 +38,7 @@ exports.get = async (title) => {
 exports.getById = async (id) => {
 	try{
 		var sql = "SELECT * FROM `products` WHERE `id` = ?";
-		var results = await new Promise((resolve, reject) =>  db.query(sql, id, (err, results) => {
+		var results = await new Promise((resolve, reject) =>  db.query(sql, [id], (err, results) => {
 			if(err) reject(err);
 			resolve(results);
 		}));

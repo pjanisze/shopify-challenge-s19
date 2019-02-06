@@ -25,15 +25,25 @@ exports.getCart = async (id) => {
 		if(err) reject(err);
 		resolve(results);
 	}));
-	return results[0];
+	return results;
 }
 
 //data
 // cartId
 // productId
 exports.add = async (data) => {
-	var sql = "UPDATE carts_products SET amount = amount + 1 WHERE ?";
-	var results = await new Promise (( resolve, reject) => db.query(sql, data, (err, results) => {
+	var sql = "SELECT COUNT(*) AS count FROM carts_products WHERE cart_id = ? AND product_id = ? "
+
+	var results = await new Promise (( resolve, reject) => db.query(sql, [data.cart_id, data.product_id], (err, results) => {
+		if(err) reject(err);
+		resolve(results);
+	}));
+
+	console.log(results[0].count);
+
+	var sql =  results[0].count > 0 ? "UPDATE carts_products SET amount = amount + 1 WHERE cart_id = ? AND product_id = ?" :
+	 																	"INSERT INTO carts_products SET cart_id = ?, product_id = ? , amount = 1";
+	var results = await new Promise (( resolve, reject) => db.query(sql, [data.cart_id, data.product_id], (err, results) => {
 		if(err) reject(err);
 		resolve(results);
 	}));

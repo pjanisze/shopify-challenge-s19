@@ -4,7 +4,9 @@ var Product = require('../models/product');
 /* GET All products listing. */
 router.get('/', async function(req, res, next) {
   var getOnlyAvailableInventory = req.query.availableProducts;
-  var minInventory = getOnlyAvailableInventory ? 1 : 0;
+  console.log(getOnlyAvailableInventory);
+  var minInventory;
+  minInventory = getOnlyAvailableInventory === 'true' ? 1 : 0;
   var products = await Product.getAll(minInventory);
   res.json(products);
 });
