@@ -7,6 +7,7 @@ router.get('/', async function(req, res, next) {
   console.log(getOnlyAvailableInventory);
   var minInventory;
   minInventory = getOnlyAvailableInventory === 'true' ? 1 : 0;
+
   var products = await Product.getAll(minInventory);
   res.json(products);
 });
