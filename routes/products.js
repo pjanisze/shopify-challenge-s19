@@ -4,7 +4,10 @@ var Product = require('../models/product');
 /* GET All products listing. */
 router.get('/', async function(req, res, next) {
   var getOnlyAvailableInventory = req.query.availableProducts;
-  var minInventory = getOnlyAvailableInventory ? 1 : 0;
+  console.log(getOnlyAvailableInventory);
+  var minInventory;
+  minInventory = getOnlyAvailableInventory === 'true' ? 1 : 0;
+
   var products = await Product.getAll(minInventory);
   res.json(products);
 });
@@ -17,7 +20,7 @@ router.get('/:product', async function(req, res, next) {
 
 });
 
-router.post('/:product/buy', async function(req, res, next){
+router.put('/:product/buy', async function(req, res, next){
   var title = req.params.product;
   var results = await Product.purchase(title);
   res.json(results);
